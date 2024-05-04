@@ -69,6 +69,24 @@ class parkingSessionController extends Controller
 
         return view('dashboards.owner.parkingSessions', compact('user', 'activeParkingSessions'));
     }
+
+
+    public function create(Parking $parking)
+    {
+        // Assuming the authenticated user is the customer
+        $customer = auth()->user();
+
+        // Create a new parking session
+        $session = ParkingSession::create([
+            'customer_id' => $customer->id,
+            'parking_id' => $parking->id,
+            'start_time' => now(), 
+            'status' => 'ongoing', 
+        ]);
+
+        return response()->json(['session' => $session], 200);
+    }
+
     
     
 }

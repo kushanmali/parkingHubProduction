@@ -86,20 +86,52 @@
 
 </div>
 
-<div class="fixed bottom-0 right-0 left-0 pb-5 rounded-t-5 bg-white">
+<div class="animate-fade-up fixed bottom-0 right-0 left-0 pb-5 rounded-t-5 bg-white">
     <div class="">
         @livewire('slot-manager', ['parking' => $parking], key($parking->id))
     </div>
 
     <div class="flex w-full px-4 justify-center">
-        <button id="start" class=" bg-gradient-to-br from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-upload" style="color: white;"></i>Book A Slot</button>
+        <button id="select-type" class=" bg-gradient-to-br from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-user" style="color: white;"></i>Book A Slot</button>
+    </div>
+
+    <div class="flex w-full p-2 hidden animate-fade-up" id="button-container">
+        <div class="w-6/12">
+            <div class="px-2 py-3 flex items-center gap-2 bg-gray-50">
+                <button id="start" class=" bg-gradient-to-br from-fuchsia-500 to-purple-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-clock" style="color: white;"></i>For Later</button>
+            </div>
+        </div>
+    
+        <div class="w-6/12">
+            <div class="px-2 py-3 flex items-center gap-2 bg-gray-50">
+                <a href="{{route('bookNowPage', $parking->id)}}" class=" bg-gradient-to-br from-blue-500 to-cyan-400 text-center w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-car" style="color: white;"></i>For Now</a>
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 @endsection
 
 
 @push('scripts')
+
+
+<script>
+    // Function to toggle the visibility of the button-container
+    function toggleButtonContainer() {
+        var buttonContainer = document.getElementById('button-container');
+        // Toggle the 'hidden' class to show/hide the container
+        buttonContainer.classList.toggle('hidden');
+    }
+
+    // Add click event listener to the select-type button
+    document.getElementById('select-type').addEventListener('click', function() {
+        // Call the toggleButtonContainer function to show/hide the container
+        toggleButtonContainer();
+    });
+</script>
 
 <script>
     calculateDistanceAndTime("{{ $parking->location->address_address }}", {{ $parking->id }});
@@ -148,7 +180,7 @@
     function initMap() {
         // Create a new map instance
         var map = new google.maps.Map(document.getElementById('address-map'), {
-            zoom: 12, // Zoom level
+            zoom: 14, // Zoom level
             center: {lat: 0, lng: 0}, // Default center
             disableDefaultUI: true // Disable default UI controls
         });

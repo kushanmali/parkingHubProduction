@@ -51,4 +51,13 @@ class publicUserController extends Controller
         // Return the location data as JSON response
         return response()->json($location);
     }
+
+    public function bookNowPage($id){
+
+        $parking = Parking::findOrFail($id);
+
+        $user = Auth::user();
+
+        return view('dashboards.user.bookNowPage', compact('user', 'parking'));
+    }
 }

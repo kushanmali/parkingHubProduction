@@ -65,6 +65,11 @@ Route::prefix('user')->middleware(['auth:sanctum', 'role:User','checkPasswordRes
         Route::get('/myMap', 'myMap')->name('myMap');
         Route::get('view-user-parking/{id}', 'viewUserParking')->name('viewUserParking');
         Route::get('parking-location/{id}', 'getParkingLocation')->name('parking.location');
+        Route::get('book-now-page/{id}', 'bookNowPage')->name('bookNowPage');
+    });
+
+    Route::controller(parkingSessionController::class)->group(function () {
+        Route::get('/create-parking-session/{parking}','create')->name('parking.session.create');
     });
 
 });
