@@ -3,7 +3,7 @@
 
 @include('dashboards.user.includes.headerlinks')
 @livewireStyles
-<body onload="getLocation()" class="m-0 font-sans antialiased font-normal text-left leading-default text-base dark:bg-slate-950 bg-gray-50 text-slate-500 dark:text-white">
+<body class="m-0 font-sans antialiased font-normal text-left leading-default text-base dark:bg-slate-950 bg-gray-50 text-slate-500 dark:text-white">
 
 
     @include('dashboards.user.includes.sidebar')

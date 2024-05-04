@@ -22,8 +22,9 @@ class publicUserController extends Controller
 
         $parking = Parking::findOrfail($id);
 
+        $parkingImages = $parking->images;
 
-        return view('dashboards.user.parking');
+        return view('dashboards.user.parking', compact('parking','parkingImages'));
     }
 
     public function getUserLocation(Request $request)
@@ -33,5 +34,21 @@ class publicUserController extends Controller
         
         // You can process the latitude and longitude here as needed
         return response()->json(['latitude' => $latitude, 'longitude' => $longitude]);
+    }
+
+    public function getParkingLocation($id)
+    {
+        // Retrieve the parking record by ID
+        $parking = Parking::findOrFail($id);
+
+        // Extract the location data
+        $location = [
+            'latitude' => $parking->location->address_latitude,
+            'longitude' => $parking->location->address_longitude,
+            'name' => $parking->parking_name, // You can use any other property as the name
+        ];
+
+        // Return the location data as JSON response
+        return response()->json($location);
     }
 }

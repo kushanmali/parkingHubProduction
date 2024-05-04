@@ -64,6 +64,7 @@ Route::prefix('user')->middleware(['auth:sanctum', 'role:User','checkPasswordRes
     Route::controller(publicUserController::class)->group(function () {
         Route::get('/myMap', 'myMap')->name('myMap');
         Route::get('view-user-parking/{id}', 'viewUserParking')->name('viewUserParking');
+        Route::get('parking-location/{id}', 'getParkingLocation')->name('parking.location');
     });
 
 });

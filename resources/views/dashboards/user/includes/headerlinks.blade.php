@@ -21,7 +21,7 @@
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVr_K-UPKcwmwVZ6B4M0DCQSSZO2CyO48&libraries=places" async defer></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVr_K-UPKcwmwVZ6B4M0DCQSSZO2CyO48&libraries=places" async defer></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
