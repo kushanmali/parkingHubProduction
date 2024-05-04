@@ -2,7 +2,7 @@
     <!-- header -->
   
     <div class="h-20">
-      <i class="absolute top-60 right-0 p-4 opacity-50 cursor-pointer fas fas fa-chevron-left font-bold text-green-800 dark:text-white xl:hidden" aria-hidden="true" sidenav-close-btn></i>
+      <i class="absolute top-60 right-0 p-4 opacity-50 cursor-pointer fas fas fa-chevron-left font-bold text-green-00 dark:text-white xl:hidden" aria-hidden="true" sidenav-close-btn></i>
   
       <a class="flex justify-center items-center px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700 dark:text-white" href="{{url('/setdashboard')}}">
         <img src="{{asset('assets/img/parking-hub-icon.jpg')}}" class="inline-block h-full max-w-full transition-all duration-200 ease-soft-in-out max-h-10 dark:hidden" alt="main_logo" />

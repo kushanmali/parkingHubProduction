@@ -54,6 +54,8 @@
     @endif 
 </script>
 
+
+
 <script>
   // Make sure this code is placed after including the Flatpickr library and the form HTML
   
@@ -88,6 +90,8 @@
         });
     }
     </script>
+
+    
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 

@@ -1,9 +1,6 @@
-<nav navbar-main class=" flex  bg-transparent flex-wrap items-center justify-between px-0 py-2 mx-6 mt-6 transition-all  duration-250 ease-soft-in rounded-lg lg:flex-nowrap lg:justify-start sticky top-[1%]  z-110 dark:bg-gray-950/80 " navbar-scroll="true">
+<nav navbar-main class=" flex  bg-transparent flex-wrap items-center justify-between px-0 py-2 mx-6 mt-6 transition-all  duration-250 ease-soft-in rounded-lg lg:flex-nowrap lg:justify-start top-[1%]  z-110 dark:bg-gray-950/80 ">
     <div class="flex items-center justify-between w-full px-4 py-2 mx-auto flex-wrap-inherit">
       <nav>
-  
-       
-        
       </nav>
   
       <div class="flex pr-4 items-center">

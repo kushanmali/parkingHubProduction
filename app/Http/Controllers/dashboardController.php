@@ -41,7 +41,9 @@ class dashboardController extends Controller
 
         $home = true;
 
-        return view('dashboards.user.dashboard', compact('user', 'qrCode', 'home'));
+        $parkings = Parking::get();
+
+        return view('dashboards.user.dashboard', compact('user', 'qrCode', 'home', 'parkings'));
     }
 
 }

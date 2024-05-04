@@ -25,4 +25,13 @@ class publicUserController extends Controller
 
         return view('dashboards.user.parking');
     }
+
+    public function getUserLocation(Request $request)
+    {
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+        
+        // You can process the latitude and longitude here as needed
+        return response()->json(['latitude' => $latitude, 'longitude' => $longitude]);
+    }
 }
