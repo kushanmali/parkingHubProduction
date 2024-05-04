@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Parking;
+use App\Models\ParkingImage;
 use Illuminate\Http\Request;
 use App\Models\ParkingSession;
 use App\Models\ParkingLocation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class parkingController extends Controller
 {
@@ -203,5 +205,72 @@ class parkingController extends Controller
 
         // Redirect the user to the parkingsessions route
         return Redirect()->route('parkingSessions', $parking->id)->with($notification);
+    }
+
+    public function addParkingProfile(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'pro-img' => 'required|image|mimes:jpeg,png,jpg,gif|max:1048', // adjust max file size as needed
+        ]);
+
+        // Get the user
+        $parking = Parking::findOrFail($id);
+
+        // Check if the user has a parking
+        if ($parking) {
+            // Delete old parking profile image if it exists
+            if ($parking->profile_img_path) {
+                Storage::delete($parking->profile_img_path);
+            }
+        }
+
+        // Store the image
+        $imagePath = $request->file('pro-img')->store('parking-profiles', 'public');
+
+        // Update parking profile image path
+        $parking->profile_img_path = $imagePath;
+        $parking->save();
+
+        return redirect()->back()->with('success', 'Parking profile image uploaded successfully.');
+    }
+
+
+    public function storeParkingImages(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'gallery-img.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $parking = Parking::findOrFail($id);
+
+        // Loop through each uploaded file
+        foreach ($request->file('gallery-img') as $image) {
+            // Store the image
+            $imagePath = $image->store('parking-images', 'public');
+
+            // Create a new ParkingImage record
+            ParkingImage::create([
+                'parking_id' => $parking->id,
+                'image_path' => $imagePath,
+            ]);
+        }
+
+        $notification = [
+            'message' => 'Gallery Updated Successfully',
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->back()->with($notification,'success', 'Images uploaded successfully.');
+    }
+
+    public function parkingSettings($id){
+
+        $user = Auth::user();
+
+        $parking = Parking::findOrfail($id);
+
+        return view('owner.parkingSettings', compact('parking', 'user'));
     }
 }

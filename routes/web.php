@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
-use App\Http\Controllers\genaralController;
-use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ownerController;
-use App\Http\Controllers\parkingController;
-use App\Http\Controllers\parkingSessionController;
 use App\Http\Controllers\publicController;
+use App\Http\Controllers\genaralController;
+use App\Http\Controllers\parkingController;
+use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\publicUserController;
+use App\Http\Controllers\parkingSessionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,8 +28,6 @@ Route::controller(publicController::class)->group(function () {
     Route::get('/customer-register', 'customerRegister')->name('customerRegister');
     Route::post('/storeCustomer', 'registeAuthCustomer')->name('registeAuthCustomer');
 });
-
-
 
 Route::controller(genaralController::class)->group(function () {
     // Route::get('/', 'home')->name('home');
@@ -51,7 +50,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:Admin','checkPasswordR
 
 });
 
-
 Route::controller(userController::class)->group(function () {
     Route::post('/store-new-user', 'storeUser')->name('storeUser');
     Route::post('/delete-user/{id}', 'deleteUser')->name('deleteUser');
@@ -61,6 +59,11 @@ Route::prefix('user')->middleware(['auth:sanctum', 'role:User','checkPasswordRes
 
     Route::controller(dashboardController::class)->group(function () {
         Route::get('/dashboard', 'userDashboard')->name('userDashboard');
+    });
+
+    Route::controller(publicUserController::class)->group(function () {
+        Route::get('/myMap', 'myMap')->name('myMap');
+        Route::get('view-user-parking/{id}', 'viewUserParking')->name('viewUserParking');
     });
 
 });
@@ -107,6 +110,9 @@ Route::middleware(['auth:sanctum','role:Owner','checkPasswordReset', config('jet
         Route::post('update-parking/{id}', 'updateParking')->name('updateParking');
         Route::post('delete-parking/{id}', 'deleteParking')->name('deleteParking');
         Route::get('/start-session', 'startSession')->name('start-session');
+        Route::get('/parking-settings/{id}', 'parkingSettings')->name('parkingSettings');
+        Route::post('add-parking-profile/{id}', 'addParkingProfile')->name('addParkingProfile');
+        Route::post('store-parking-images/{id}', 'storeParkingImages')->name('storeParkingImages');
     });
 
     Route::controller(parkingSessionController::class)->group(function () {

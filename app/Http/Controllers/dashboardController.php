@@ -39,7 +39,9 @@ class dashboardController extends Controller
 
         $qrCode =  $user->qrCode;
 
-        return view('dashboards.user.dashboard', compact('user', 'qrCode'));
+        $home = true;
+
+        return view('dashboards.user.dashboard', compact('user', 'qrCode', 'home'));
     }
 
 }

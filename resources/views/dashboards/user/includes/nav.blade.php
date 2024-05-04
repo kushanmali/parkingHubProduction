@@ -14,11 +14,7 @@
             <i class="ease-soft relative block h-0.5 translate-x-[5px] rounded-sm bg-slate-500 transition-all dark:bg-white"></i>
           </div>
         </a>
-      </div>
-  
-
-  
-      
+      </div>   
   
       <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto" id="navbar">  
         <div class="flex items-center justify-end md:ml-auto md:pr-4">
@@ -42,11 +38,17 @@
         </li> -->
           
           <li class="flex items-center -pr-12 xl:hidden">
-            <a sidenav-trigger class="block p-0 bg-white rounded-full px-4 py-5 transition-all ease-nav-brand text-sm text-slate-500 dark:text-white" href="javascript:;" aria-expanded="false">
+            <a sidenav-trigger class="block p-0 rounded-full px-4 py-5 transition-all ease-nav-brand text-sm text-slate-500 dark:text-white" href="javascript:;" aria-expanded="false">
               <div class="w-4.5 overflow-hidden">
+                @if(isset($home))
+                <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm {{ $home ? 'bg-white' : 'bg-slate-500' }} transition-all dark:bg-white"></i>
+                <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm  {{ $home ? 'bg-white' : 'bg-slate-500' }} transition-all dark:bg-white"></i>
+                <i class="ease-soft relative block h-0.5 rounded-sm  {{ $home ? 'bg-white' : 'bg-slate-500' }} transition-all dark:bg-white"></i>
+              @else
                 <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all dark:bg-white"></i>
                 <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all dark:bg-white"></i>
                 <i class="ease-soft relative block h-0.5 rounded-sm bg-slate-500 transition-all dark:bg-white"></i>
+              @endif
               </div>
             </a>
           </li>
@@ -55,46 +57,6 @@
               <i fixed-plugin-button-nav class="cursor-pointer fa fa-cog" aria-hidden="true"></i>
               <!-- fixed-plugin-button-nav  -->
             </a>
-          </li>
-  
-          <li class="flex items-center">
-            <div class="relative">
-              <button dropdown-trigger aria-expanded="false" type="button" class="inline-block p-0 mr-4 cursor-pointer">
-                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                          <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                  @else
-                      <span class="inline-flex rounded-md">
-                              {{ Auth::user()->name }}
-  
-                              <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                              </svg>
-                      </span>
-                  @endif
-              </button>
-              <p class="hidden transform-dropdown-show"></p>
-              <ul dropdown-menu class="z-10 -mt-2 -ml-32 text-sm lg:shadow-soft-3xl dark:bg-black duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 transform-dropdown pointer-events-none absolute left-auto right-auto    list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-0 py-2 text-left text-slate-500 opacity-0 transition-all before:absolute before:right-7 before:left-auto before:top-0 before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
-                <li>
-                  <a href="{{ route('profile.show') }}" class="py-1.2 lg:ease-soft  clear-both block w-full whitespace-nowrap border-0 bg-transparent px-4 text-left text-slate-500 hover:bg-gray-200 hover:text-slate-700 dark:text-white dark:hover:bg-gray-200/80 dark:hover:text-slate-700 lg:transition-colors font-bold lg:duration-300" href="javascript:;"> {{ __('Profile') }}</a>
-                </li>
-                <li>
-                  @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                  <a href="{{ route('api-tokens.index') }}" class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap border-0 bg-transparent px-4 text-left font-normal text-slate-500 hover:bg-gray-200 hover:text-slate-700 dark:text-white dark:hover:bg-gray-200/80 dark:hover:text-slate-700 lg:transition-colors lg:duration-300">
-                      {{ __('API Tokens') }}
-                  </a>
-              @endif
-                </li>
-                <li>
-                  <form id="logout-form" method="POST" action="{{ route('logout') }}">
-                    @csrf
-                
-                    <button type="submit" class="py-1.2 lg:ease-soft font-bold clear-both block w-full whitespace-nowrap border-0 bg-transparent px-4 text-left text-slate-500 hover:bg-gray-200 hover:text-slate-700 dark:text-white dark:hover:bg-gray-200/80 dark:hover:text-slate-700 lg:transition-colors lg:duration-300">
-                        {{ __('Log Out') }}
-                    </button>
-                </form>
-                </li>
-              </ul>
-            </div>
           </li>
         </ul>
       </div>

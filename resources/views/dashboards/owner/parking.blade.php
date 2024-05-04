@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="w-full p-6 mx-auto">
+
     <div class="relative flex flex-col flex-auto min-w-0 p-4 mb-4 break-words bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border" id="profile">
         <div class="flex flex-wrap items-center justify-between -mx-3">
             <div class="w-full  max-w-full px-3 my-auto flex justiy-between items-center">
@@ -12,33 +13,32 @@
                 </div>
 
                 <div class="flex w-6/12 items-center px-2 gap-2 justify-end max-w-full md:flex-0 shrink-0">
+                    <a href="{{route('parkingSettings', $parking->id)}}" class="whitespace-nowrap font-bold flex items-center gap-2 text-lg text-center uppercase align-middle transition-all bg-transparent border-solid rounded-lg shadow-none cursor-pointer active:opacity-85 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 hover:scale-102 active:shadow-soft-xs hover:text-blue-500 hover:opacity-75 hover:shadow-none active:scale-100 active:border-orange-500 active:bg-orange-500 active:text-white hover:active:border-orange-500 hover:active:bg-transparent hover:active:text-orange-500 hover:active:opacity-75"> <span class="font-bold text-sm">Settings</span></a>
                     <button type="button" data-toggle="modal" data-target="#qrModal" class="whitespace-nowrap font-bold flex items-center gap-2 text-lg text-center uppercase align-middle transition-all bg-transparent border-solid rounded-lg shadow-none cursor-pointer active:opacity-85 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 hover:scale-102 active:shadow-soft-xs hover:text-blue-500 hover:opacity-75 hover:shadow-none active:scale-100 active:border-orange-500 active:bg-orange-500 active:text-white hover:active:border-orange-500 hover:active:bg-transparent hover:active:text-orange-500 hover:active:opacity-75"> <span class="font-bold text-sm">SCAN QR</span><i class="fas p-4 bg-white rounded-full text-6 fa-qrcode" style="color: black;"></i></button>
                 </div>  
             </div>
         </div>
     </div>
-
-
-
+    
     <div class="flex flex-wrap mt-6 -mx-3">
 
-         <div class="w-full max-w-full px-3 md:w-6/12 md:flex-none">
+         <div class="w-full max-w-full px-3 md:flex-none">
             <div class="relative flex flex-col min-w-0 break-words bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
-              <div class="pt-6 pb-6 px-4 pb-0 mb-0 border-b-0 rounded-t-2xl">
-                <div class="flex-auto p-4">
-                    <div class="flex flex-wrap -mx-3">
-                      <div class="w-6/12 max-w-full px-3 mb-4 text-center flex-0 lg:w-6/12">
+              <div class="pt-6 pb-6 px-4 mb-0 border-b-0 rounded-t-2xl">
+                <div class="flex-auto px-4">
+                    <div class="flex w-full flex-wrap justify-between -mx-3">
+                      <div class="w-full max-w-full px-3 text-center flex-0 lg:w-3/12">
                         <a href="{{route('parkingActiveSessions', $parking->id)}}">
                         <div class="py-4 border border-dashed rounded-lg border-slate-400">
                           <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">Active Sessions</h6>
                           <h4 class="font-bold dark:text-white">
                             <span id="state1">{{count($activeParkingSessions)}}</span>
                           </h4>
-                        </a>
+                       
                         </div>
+                        </a>
                       </div>
-                      
-                      <div class="w-6/12 max-w-full mb-4 px-3 text-center flex-0 lg:w-6/12">
+                      <div class="full max-w-full px-3 text-center flex-0 lg:w-3/12">
                         <div class="py-4 border border-dashed rounded-lg border-slate-400">
                           <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">active Slots</h6>
                           <h4 class="font-bold dark:text-white">
@@ -46,7 +46,7 @@
                           </h4>
                         </div>
                       </div>
-                      <div class="w-6/12 max-w-full px-3 mt-6 text-center flex-0 lg:w-6/12 lg:mt-0">
+                      <div class="w-full max-w-full px-3 mt-6 text-center flex-0 lg:w-3/12 lg:mt-0">
                         <div class="py-4 border border-dashed rounded-lg border-slate-400">
                           <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">Monthly Earning</h6>
                           <h4 class="font-bold dark:text-white">
@@ -54,7 +54,7 @@
                           </h4>
                         </div>
                       </div>
-                      <div class="w-6/12 max-w-full px-3 mt-6 text-center flex-0 lg:w-6/12 lg:mt-0">
+                      <div class="w-4/12 max-w-full px-3 mt-6 text-center flex-0 lg:w-3/12 lg:mt-0">
                         <div class="py-4 border border-dashed rounded-lg border-slate-400">
                           <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">All time earning</h6>
                           <h4 class="font-bold dark:text-white">
@@ -66,76 +66,8 @@
                 </div>
               </div>
             </div>
-          </div>
-
-
-        <div class="w-full max-w-full px-3 shrink-0 lg:flex-0 lg:w-6/12">
-            
-            <div class="relative flex flex-col min-w-0 break-words bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
-
-                <form class="relative mb-32" action="{{ route('updateParking', $user->id) }}" method="post">
-                    @csrf
-
-                    <div active form="user" class="absolute top-0 left-0 flex flex-col visible w-full h-auto min-w-0 p-4 break-words bg-white border-0 opacity-100 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
-                    <h5 class="mb-0 font-bold dark:text-white">update {{$parking->parking_name}} Parking Space</h5>
-                    <p class="mb-0 leading-normal text-sm">Parking basic details</p>
-                        <div>
-                            <div class="flex flex-wrap mt-4 -mx-3">
-                                <div class="w-full max-w-full px-3 flex-0 lg:w-6/12">
-                                    <label class="mt-6 mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80" for="parkingName">Parking Name</label>
-                                    <input type="text" name="parkingName" value="{{$parking->parking_name}}" placeholder="parking name" class="{{ $errors->has('parkingName') ? 'border-red-500' : 'border-gray-300' }}  focus:shadow-soft-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-black focus:outline-none" value="{{ old('UserName') }}"/>
-                                    @error('parkingName')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="w-full max-w-full px-3 flex-0 lg:w-6/12">
-                                    <label class="mt-6 mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80" for="slotCount">Available Slots</label>
-                                    <input type="number" name="slotCount" value="{{$parking->slot_count}}" placeholder="count" class="{{ $errors->has('slotCount') ? 'border-red-500' : 'border-gray-300' }}  focus:shadow-soft-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-black focus:outline-none" value="{{ old('UserName') }}"/>
-                                    @error('slotCount')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="w-full max-w-full px-3 flex-0">
-                                    <label class="mt-6 mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80" for="slotCount">Price For Slot (Hour)</label>
-                                    <input type="number" step="any" name="price" value="{{$parking->price}}" placeholder="LKR" class="{{ $errors->has('price') ? 'border-red-500' : 'border-gray-300' }}  focus:shadow-soft-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-black focus:outline-none" value="{{ old('UserName') }}"/>
-                                    @error('price')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <div class="flex flex-wrap mt-4 -mx-3">
-                                    <div class="w-full max-w-full px-3 flex-0">
-                                        <label class="mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80" for="address-input">Address</label>
-                                        <input type="text" id="address-input" value="{{$parking->location->address_address}}" name="address_address" class="focus:shadow-soft-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none map-input">
-                                        <input type="hidden" name="address_latitude" value="{{$parking->location->address_latitude}}" id="address-latitude">
-                                        <input type="hidden" name="address_longitude" value="{{$parking->location->address_longitude}}" id="address-longitude">
-                                    </div>                                    
-                                </div>
-                                <div class="flex flex-wrap mt-4 -mx-3">
-                                    <div class="w-full max-w-full px-3 flex-0">
-                                        <div id="address-map-container" style="width:100%;height:200px; ">
-                                            <div style="width: 100%; height: 100%" id="address-map"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex mt-6">
-                                <button type="submit" class="inline-block px-6 py-3 mb-0 ml-auto font-bold text-right text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer hover:scale-102 active:opacity-85 hover:shadow-soft-xs dark:bg-gradient-to-tl dark:from-slate-850 dark:to-gray-850 bg-gradient-to-tl from-gray-900 to-slate-800 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25">Submit</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div form="address" class="absolute top-0 left-0 flex flex-col invisible w-full h-0 min-w-0 p-4 break-words bg-white border-0 opacity-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
-                    <h5 class="font-bold dark:text-white">Address</h5>
-                    
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
+    
 </div>
 
 
@@ -143,7 +75,7 @@
     <div class="relative w-auto h-screen transition-transform duration-300 pointer-events-none sm:m-7 sm:max-w-125 sm:mx-auto lg:mt-24 ease-soft-out -translate-y-13">
         <div class="relative flex flex-col w-full bg-white border border-solid pointer-events-auto dark:bg-gray-950 bg-clip-padding border-black/20 lg:rounded-4 outline-0">
             <div class="flex items-center justify-between p-4 border-b border-solid shrink-0 border-slate-100 rounded-t-xl">
-                <h5 class="mb-0 leading-normal mr-2 dark:text-white" id="ModalLabel">Welcome {{$user->name}}</h5>
+                <h5 class="mb-0 leading-normal mr-2 dark:text-white" id="ModalLabel">Welcome {{$parking->parking_name}}</h5>
                 <button type="button" data-toggle="modal" data-target="#qrModal" class="fa fa-close w-4 h-4 ml-auto box-content p-2 text-black dark:text-white border-0 rounded-1.5 opacity-50 cursor-pointer -m-2 " data-dismiss="modal"></button>
             </div>
 
@@ -164,6 +96,46 @@
         </div>
     </div>
 </div>
+
+<div class="fixed top-0 left-0 hidden w-full h-full overflow-x-hidden overflow-y-auto transition-opacity ease-linear opacity-0 z-sticky outline-0" id="uploadProfileModal" aria-hidden="true">
+    <div class="relative w-auto min-h-screen transition-transform duration-300 pointer-events-none sm:m-7 sm:max-w-125 sm:mx-auto lg:mt-24 ease-soft-out -translate-y-13">
+        <div class="relative min-h-screen flex flex-col w-full bg-white border border-solid pointer-events-auto dark:bg-gray-950 bg-clip-padding border-black/20 lg:rounded-4 outline-0">
+            <div class="flex items-center justify-between p-4 border-b border-solid shrink-0 border-slate-100 rounded-t-xl">
+                <h5 class="mb-0 leading-normal mr-2 dark:text-white" id="ModalLabel">Edit Parking Profile</h5>
+                <button type="button" data-toggle="modal" data-target="#uploadProfileModal" class="fa fa-close w-4 h-4 ml-auto box-content p-2 text-black dark:text-white border-0 rounded-1.5 opacity-50 cursor-pointer -m-2 " data-dismiss="modal"></button>
+            </div>
+
+            <form class="relative mb-32"  enctype="multipart/form-data" action="{{ route('addParkingProfile', $parking->id) }}" method="post">
+                @csrf
+
+                <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 dark:bg-gray-950 dark:bg-opacity-20 dark:backdrop-blur-xl dark:shadow-soft-dark-xl rounded-2xl bg-clip-border">
+                
+                <div class="flex-auto p-6">
+                    <div class="flex flex-wrap items-center  -mx-3">
+                            <div id="img-placeholder" class="w-full pb-4 max-w-full !flex justify-center">
+                                <img id="previewImage" class=" w-44 mt-4 object-cover"  src="{{ asset('assets/img/parking-hub-icon.jpg') }}" alt="">
+                            </div>
+
+                        <div class="w-full flex items-end  px-2 max-w-full ">
+                            <div class=" w-full max-w-full">
+                                <div dropzone class="dropzone !min-h-fit focus:shadow-soft-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-border px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" id="dropzone">
+                                    <input type="file" name="pro-img" multiple onchange="previewFile()" />
+                                </div>
+                            </div>
+                        </div>              
+                    </div>
+                </div>
+                
+           
+                <div class="flex py-6 w-full px-4 justify-center">
+                    <button id="start" class="bg-blue-500 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-upload" style="color: white;"></i>Upload File</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 @endsection
@@ -344,6 +316,44 @@
         // Retrieve parking ID from a data attribute or any other method you're using to pass it to the JavaScript function
         const parkingId = {!! json_encode($parking->id) !!};
         startScan(parkingId);
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to preview the selected file or webcam capture
+
+        const fileInput = document.querySelector('input[name="pro-img"]');
+        fileInput.addEventListener('change', previewFile);
+
+        function previewFile() {
+            const placeholder = document.getElementById('img-placeholder');
+            const webcamPreview = document.getElementById('webcamPreview');
+            const previewImage = document.getElementById('previewImage');
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                previewImage.src = URL.createObjectURL(file);
+                placeholder.style.display = 'block'; // Show the image placeholder
+            } else if (webcamPreview.srcObject) {
+                placeholder.style.display = 'block';
+            } else {
+                previewImage.src = "{{ asset('assets/img/upload-default.png') }}";
+                placeholder.style.display = 'none'; // Hide the image placeholder
+            }
+        }
+
+       
+        // Add an event listener to the "Create Student" button
+        const submitButton = document.getElementById('submit-fr');
+        submitButton.addEventListener('click', function (event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Call the function to handle form submission
+            handleFormSubmission();
+        });
     });
 </script>
 
