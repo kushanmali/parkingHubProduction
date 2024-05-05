@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use Carbon\Carbon;
 use App\Models\Parking;
 use App\Models\CancelReason;
 use Illuminate\Http\Request;
@@ -160,6 +162,50 @@ class parkingSessionController extends Controller
         // Redirect back with success message or any other action you want to take
         return redirect()->route('myBookings')->with('success', 'Parking session booked successfully.');
     }
+
+
+
+    public function finishSession(Request $request, $id)
+    {
+        $session = ParkingSession::findOrFail($id);
+    
+        // Update the end time and status of the parking session
+        $session->end_time = Carbon::now('Asia/Colombo'); // Set end time to current time
+        $session->status = 'finished';
+    
+        // Calculate the duration of the parking session in hours
+        $startTime = new DateTime($session->start_time);
+        $endTime = new DateTime($session->end_time);
+        $duration = $endTime->diff($startTime)->h;
+    
+        // Retrieve the hourly rate of the parking
+        $parking = $session->parking;
+        $hourlyRate = $parking->price;
+    
+        // Calculate the billing price based on the duration and hourly rate
+        if ($duration < 1) {
+            // If duration is less than 1 hour, set billing price to one-hour price
+            $billingPrice = $hourlyRate;
+        } else {
+            // Otherwise, calculate the billing price based on the duration
+            $billingPrice = $duration * $hourlyRate;
+        }
+    
+        // Update the parking session with the calculated billing price
+        $session->billing_price = $billingPrice;
+        $session->save();
+    
+        // Redirect or return a response as needed
+        $notification = [
+            'message' => 'Session Finished Successfully',
+            'alert-type' => 'success'
+        ];
+    
+        // Redirect the user to the parkingsessions route
+        return redirect()->route('parkingSessions', $parking->id)->with($notification);
+    }
+    
+
     
 }
 

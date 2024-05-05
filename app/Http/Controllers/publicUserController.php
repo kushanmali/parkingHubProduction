@@ -64,10 +64,10 @@ class publicUserController extends Controller
 
         $existingSession = ParkingSession::where('customer_id', $user->id)
         ->where('parking_id', $parking->id)
-        ->where('date', today())
         ->where('status', 'booked')
         ->orwhere('status', 'ongoing')
         ->orwhere('status', 'preBooked')
+        ->where('date', today())
         ->first();
 
         $qrCode =  $user->qrCode;

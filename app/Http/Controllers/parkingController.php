@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Parking;
 use App\Models\ParkingImage;
@@ -102,15 +103,23 @@ class parkingController extends Controller
 
         $parking = Parking::findOrFail($id);
 
+        $preBookedSessions = ParkingSession::where('parking_id', $parking->id)
+        ->where('status', 'preBooked')->where('date', today())
+        ->get();
+
         $activeParkingSessions = ParkingSession::where('parking_id', $parking->id)
-        ->where('status', 'ongoing')
+        ->where('status', 'ongoing')->where('date', today())
+        ->get();
+
+        $waitingParkingSessions = ParkingSession::where('parking_id', $parking->id)
+        ->where('status', 'booked')->where('date', today())
         ->get();
 
         $finishedParkingSessions = ParkingSession::where('parking_id', $parking->id)
-        ->where('status', 'finished')
+        ->where('status', 'finished')->where('date', today())
         ->get();
 
-        return view('dashboards.owner.parking', compact('user', 'parking', 'activeParkingSessions', 'finishedParkingSessions'));
+        return view('dashboards.owner.parking', compact('waitingParkingSessions','user', 'parking','preBookedSessions', 'activeParkingSessions', 'finishedParkingSessions'));
     }
 
     
@@ -176,36 +185,56 @@ class parkingController extends Controller
         return response()->json(['parkings' => $nearbyParkings]);
     }
 
-
     public function startSession(Request $request)
     {
+        // Set the time zone to Colombo, Asia
+        date_default_timezone_set('Asia/Colombo');
+    
         $customerId = $request->query('customerId');
         $parkingId = $request->query('parkingId');
-
+    
         $customer = User::findOrFail($customerId);
         $parking = Parking::findOrFail($parkingId);
-
-        // Create a new ParkingSession instance
-        $session = new ParkingSession();
-        
-        // Set the attributes for the new session
-        $session->customer_id = $customer->id;
-        $session->parking_id = $parking->id;
-        $session->start_time = now(); // Assuming you want to start the session immediately
-        $session->status = 'ongoing'; // Set the status to ongoing
-        
-        // Save the new session to the database
-        $session->save();
-
-
+    
+        // find existing parking session
+        $existingSession = ParkingSession::where('customer_id', $customerId)
+            ->where('parking_id', $parkingId)
+            ->where('status', 'booked')
+            ->orwhere('status', 'ongoing')
+            ->orwhere('status', 'preBooked')
+            ->where('date', today())
+            ->first();
+    
+        if ($existingSession) {
+            $session = ParkingSession::findOrfail($existingSession->id);
+    
+            $session->status = 'ongoing';
+            $session->start_time = Carbon::now('Asia/Colombo'); // Update the start time with the Colombo time zone
+    
+            $session->save();
+        } else {
+    
+            $session = new ParkingSession();
+    
+            // Set the attributes for the new session
+            $session->customer_id = $customer->id;
+            $session->parking_id = $parking->id;
+            $session->start_time = Carbon::now('Asia/Colombo'); // Update the start time with the Colombo time zone
+            $session->status = 'ongoing'; // Set the status to ongoing
+    
+            // Save the new session to the database
+            $session->save();
+        }
+    
         $notification = [
             'message' => 'Session Started Successfully',
             'alert-type' => 'success'
         ];
-
+    
         // Redirect the user to the parkingsessions route
         return Redirect()->route('parkingSessions', $parking->id)->with($notification);
     }
+    
 
     public function addParkingProfile(Request $request, $id)
     {

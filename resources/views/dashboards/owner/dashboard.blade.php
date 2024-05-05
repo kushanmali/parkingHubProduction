@@ -15,7 +15,7 @@
             <div class="flex flex-wrap -mx-3">
 
               @foreach ($parkings as $parking)
-                <div class="w-6/12 max-w-full px-3 text-center flex-0 lg:w-3/12">
+                <div class="w-full max-w-full px-3 text-center flex-0 lg:w-3/12">
                   <a href="{{route('viewParking', $parking->id)}}">
                     <div class="py-4 border border-dashed rounded-lg border-slate-400">
                       <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">{{$parking->parking_name}}</h6>
@@ -36,11 +36,9 @@
             </div>
 
             <div class="flex flex-wrap mt-12 -mx-3">
-              <div class="w-full max-w-full px-3 flex-0">
-                <div class="p-4 border border-dashed rounded-lg border-slate-400">
-                  
+              <div class="w-full max-w-full">
+                <div class="">
                     <div id="my-map" style="height: 400px;"></div>
-                
                 </div>
               </div>
             </div>           

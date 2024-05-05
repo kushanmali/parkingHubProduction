@@ -6,7 +6,7 @@
 
   <div class="flex flex-wrap -mx-3">
     <div class="w-full max-w-full px-3 flex-0">
-      <div class="relative flex flex-col min-w-0 break-words bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
+      <div class="relative pb-4 flex flex-col min-w-0 break-words bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
         <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
           <div class="lg:flex">
             <div>
@@ -19,52 +19,45 @@
             </div>
           </div>
         </div>
-        <div class="flex-auto p-6 px-0 pb-0">
-          <div class="overflow-x-auto table-responsive">
-            <table class="table" datatable id="products-list">
-              <thead class="thead-light">
-                <tr>
-                  <th>parking Name</th>
-                  <th>Parking Address</th>
-                  <th>Available Slots</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($parkings as $parking)
-                <tr>
-                  <td>
-                    <div class="flex">
-                      <h6 class="my-auto ml-4 dark:text-white">{{$parking->parking_name}}</h6>
-                    </div>
-                  </td>
-                  <td class="leading-normal text-sm">{{$parking->location->address_address}}</td>
-                  <td class="leading-normal text-sm">{{$parking->slot_count}}</td>
-                  <td class="leading-normal text-sm">
-                    <div class="flex justify-end items-center">
-                      <a href="{{route('viewParking', $parking->id )}}" class="mx-4" >
-                        <i class="fas fa-eye text-slate-400 dark:text-white/70"></i>
-                      </a>
-                      <form action="{{ route( 'deleteParking', $parking->id ) }}" id="delete-form-{{ $parking->id }}" method="POST">
+      </div>
+
+
+      <div class="flex-auto shadow-none bg-transparent p-6 px-0 pb-0">
+        <div class="overflow-x-auto flex flex-wrap w-full bg-transparent table-responsive">
+          @if($parkings->count() > 0)
+          @foreach($parkings as $parking)
+          <a class="w-full lg:w-4/12" href="{{route('viewParking', $parking->id )}}">
+              <div class="p-4 bg-white shadow-soft-lg rounded-4">
+                  <!-- Parking details -->
+                  <div class="flex lg:w-full pb-4 w-full">
+                      <!-- Parking image -->
+                      <div class="w-4/12 lg:w-5/12">
+                          <img src="{{ asset('/storage/'.$parking->profile_img_path) }}" alt="Parking Image" class="inline-flex items-center justify-center w-full object-cover text-white transition-all duration-200 text-base ease-soft-in-out rounded-4">
+                      </div>
+                      <!-- Parking information -->
+                      <div class="w-8/12 lg:w-7/12 pl-3">
+                          <h5 class="mt-0 mb-2 dark:text-white">{{ $parking->parking_name }}</h5>
+                          <p class="leading-normal text-sm dark:text-white dark:opacity-60">
+                              <i class="fas fa-map-marker-alt  text-xl text-blue-500"></i> 
+                              {{ \Illuminate\Support\Str::limit($parking->location->address_address, 55) }}
+                          </p>
+                      </div>
+
+                      <form action="{{ route( 'deleteParking', $session->id ) }}" id="delete-form-{{ $parking->id }}" method="POST">
                         @csrf
                         <button type="submit" class="" onclick="ConfirmDelete(event, {{ $parking->id }})">
                           <i class="fas fa-trash text-slate-400 dark:text-white/70"></i>
                         </button>
                       </form>
-                    </div>
-                  </td>
-                </tr>
-                @endforeach
-                
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Song</th>
-                  <th>Artist</th>
-                  <th>Action</th>
-                </tr>
-              </tfoot>
-            </table>                  
+                  </div>                  
+              </div>
+          </a>
+          @endforeach
+      @else
+          <div class="m-4 p-4 rounded-2 flex items-center bg-red-100">
+              <h3 class="text-sm mb-0 text-center text-red-500 font-semibold px-2">No available Parkings</h3>
           </div>
+      @endif                  
         </div>
       </div>
     </div>

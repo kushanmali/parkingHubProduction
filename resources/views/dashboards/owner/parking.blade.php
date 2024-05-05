@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="flex w-6/12 items-center px-2 gap-2 justify-end max-w-full md:flex-0 shrink-0">
-                    <a href="{{route('parkingSettings', $parking->id)}}" class="whitespace-nowrap font-bold flex items-center gap-2 text-lg text-center uppercase align-middle transition-all bg-transparent border-solid rounded-lg shadow-none cursor-pointer active:opacity-85 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 hover:scale-102 active:shadow-soft-xs hover:text-blue-500 hover:opacity-75 hover:shadow-none active:scale-100 active:border-orange-500 active:bg-orange-500 active:text-white hover:active:border-orange-500 hover:active:bg-transparent hover:active:text-orange-500 hover:active:opacity-75"> <span class="font-bold text-sm">Settings</span></a>
+                    <a href="{{route('parkingSettings', $parking->id)}}" class="whitespace-nowrap font-bold flex mr-3 items-center gap-2 text-lg text-center uppercase align-middle transition-all bg-transparent border-solid rounded-lg shadow-none cursor-pointer active:opacity-85 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 hover:scale-102 active:shadow-soft-xs hover:text-blue-500 hover:opacity-75 hover:shadow-none active:scale-100 active:border-orange-500 active:bg-orange-500 active:text-white hover:active:border-orange-500 hover:active:bg-transparent hover:active:text-orange-500 hover:active:opacity-75"> <span class="font-bold text-sm">Settings</span></a>
                     <button type="button" data-toggle="modal" data-target="#qrModal" class="whitespace-nowrap font-bold flex items-center gap-2 text-lg text-center uppercase align-middle transition-all bg-transparent border-solid rounded-lg shadow-none cursor-pointer active:opacity-85 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 hover:scale-102 active:shadow-soft-xs hover:text-blue-500 hover:opacity-75 hover:shadow-none active:scale-100 active:border-orange-500 active:bg-orange-500 active:text-white hover:active:border-orange-500 hover:active:bg-transparent hover:active:text-orange-500 hover:active:opacity-75"> <span class="font-bold text-sm">SCAN QR</span><i class="fas p-4 bg-white rounded-full text-6 fa-qrcode" style="color: black;"></i></button>
                 </div>  
             </div>
@@ -23,57 +23,252 @@
     <div class="flex flex-wrap mt-6 -mx-3">
 
          <div class="w-full max-w-full px-3 md:flex-none">
-            <div class="relative flex flex-col min-w-0 break-words bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
-              <div class="pt-6 pb-6 px-4 mb-0 border-b-0 rounded-t-2xl">
-                <div class="flex-auto px-4">
-                    <div class="flex w-full flex-wrap justify-between -mx-3">
-                      <div class="w-full max-w-full px-3 text-center flex-0 lg:w-3/12">
-                        <a href="{{route('parkingActiveSessions', $parking->id)}}">
-                        <div class="py-4 border border-dashed rounded-lg border-slate-400">
-                          <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">Active Sessions</h6>
-                          <h4 class="font-bold dark:text-white">
-                            <span id="state1">{{count($activeParkingSessions)}}</span>
-                          </h4>
-                       
+           
+
+
+            @if($waitingParkingSessions->count() > 0)
+            <div class="flex mt-6  flex-wrap -mx-3">
+                <div class="w-full max-w-full px-3 flex-0">
+                  <div class="relative flex flex-col min-w-0 break-words p-6 bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
+                      <div class="lg:flex">
+                        <div>
+                          <h5 class="mb-0 dark:text-white">Waiting Bookings</h5>
                         </div>
-                        </a>
-                      </div>
-                      <div class="full max-w-full px-3 text-center flex-0 lg:w-3/12">
-                        <div class="py-4 border border-dashed rounded-lg border-slate-400">
-                          <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">active Slots</h6>
-                          <h4 class="font-bold dark:text-white">
-                            <span id="state2">1</span>
-                          </h4>
+                        <div class="my-auto mt-6 ml-auto lg:mt-0">
+                          {{-- <div class="my-auto ml-auto">
+                            <a href="{{url('/new-parking')}}" class="inline-block px-8 py-2 m-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">+&nbsp; New Parking</a>
+                          </div> --}}
                         </div>
                       </div>
-                      <div class="w-full max-w-full px-3 mt-6 text-center flex-0 lg:w-3/12 lg:mt-0">
-                        <div class="py-4 border border-dashed rounded-lg border-slate-400">
-                          <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">Monthly Earning</h6>
-                          <h4 class="font-bold dark:text-white">
-                            <span id="state3">1</span>
-                          </h4>
+                    </div>
+                   
+                   
+                    <div class="flex-auto shadow-none bg-transparent p-6 px-0 pb-0">
+                        <div class="overflow-x-auto flex flex-wrap w-full bg-transparent table-responsive">
+                          @foreach($waitingParkingSessions as $session)
+                          <a class="w-full lg:w-4/12" href="#">
+                              <div class="p-4 bg-white w-full shadow-soft-lg rounded-4">
+                                  <!-- Parking details -->
+                                  <div class="flex lg:w-full pb-4 w-full">
+                                      <!-- Parking information -->
+                                      <div class="w-full pl-3">
+                                            <h5 class="mt-0 mb-2 dark:text-white">{{$session->customer->name}}</h5>
+                                            <p class="leading-normal flex items-center mb-0 text-sm font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-calendar-alt mb-0 text-xl pr-2 text-blue-500"></i> 
+                                                Booked date:{{$session->date}}
+                                            </p>
+                                            <p class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                               Scan Users Qr To Start THe Session
+                                            </p>
+                                      </div>
+                                    </div>                  
+                              </div>
+                          </a>
+                          @endforeach
                         </div>
-                      </div>
-                      <div class="w-4/12 max-w-full px-3 mt-6 text-center flex-0 lg:w-3/12 lg:mt-0">
-                        <div class="py-4 border border-dashed rounded-lg border-slate-400">
-                          <h6 class="relative mb-0 text-transparent z-1 bg-clip-text bg-gradient-to-tl from-purple-700 to-pink-500">All time earning</h6>
-                          <h4 class="font-bold dark:text-white">
-                            <span >1</span>
-                          </h4>
-                        </div>
-                      </div>
-                    </div>         
+                    </div>
+                  
+                  </div>
                 </div>
-              </div>
             </div>
+             @endif
+
+            @if($activeParkingSessions->count() > 0)
+            <div class="flex mt-6  flex-wrap -mx-3">
+                <div class="w-full max-w-full px-3 flex-0">
+                  <div class="relative flex flex-col min-w-0 break-words p-6 bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
+                      <div class="lg:flex">
+                        <div>
+                          <h5 class="mb-0 dark:text-white">Ongoing Bookings</h5>
+                        </div>
+                        <div class="my-auto mt-6 ml-auto lg:mt-0">
+                          {{-- <div class="my-auto ml-auto">
+                            <a href="{{url('/new-parking')}}" class="inline-block px-8 py-2 m-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">+&nbsp; New Parking</a>
+                          </div> --}}
+                        </div>
+                      </div>
+                    </div>
+                   
+                   
+                    <div class="flex-auto shadow-none bg-transparent p-6 px-0 pb-0">
+                        <div class="overflow-x-auto flex flex-wrap w-full bg-transparent table-responsive">
+                          @foreach($activeParkingSessions as $session)
+                          <a class="w-full lg:w-4/12" href="#">
+                              <div class="p-4 bg-white shadow-soft-lg rounded-4">
+                                  <!-- Parking details -->
+                                  <div class="flex lg:w-full pb-4 w-full">
+                                      <!-- Parking information -->
+                                      <div class="w-full pl-3">
+                                            <h5 class="mt-0 mb-2 dark:text-white">{{$session->customer->name}}</h5>
+                                            <p class="leading-normal flex items-center mb-0 text-sm font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-calendar-alt mb-0 text-xl pr-2 text-blue-500"></i> 
+                                                Booked date:{{$session->date}}
+                                            </p>
+                                            <p class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                Start Time: {{$session->start_time ?  (new DateTime($session->start_time))->format('H:i:s') : 'N/A'}}
+                                            </p>
+                                            <p   class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                Elapsed Time: <span class="ml-2" id="timer-{{$session->id}}"> </span>
+                                            </p>
+                                            <p   class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                End Time: {{$session->end_time ? $session->end_time : 'N/A'}}
+                                            </p>
+                                            <p   class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                Total Price: {{$session->bill_price ? $session->bill_price : 'N/A'}}
+                                            </p>
+
+                                            <div class="flex items-center justify-end w-full">
+                                                <form action="{{ route( 'finishSession', $session->id ) }}" id="finish-form-{{ $session->id }}" method="POST">
+                                                    @csrf
+                                                    <button  class="text-green-600 font-bold" type="submit" class="" onclick="ConfirmFinish(event, {{ $session->id }})">
+                                                        <i class="fas fa-flag text-green-600 dark:text-white/70"></i> Finish
+                                                    </button>
+                                                </form>
+                                            </div>
+                                      </div>
+                                    </div>                  
+                              </div>
+                          </a>
+                          @endforeach
+                        </div>
+                    </div>
+                  
+                  </div>
+                </div>
+            </div>
+             @endif
+
+
+             @if($finishedParkingSessions->count() > 0)
+             <div class="flex mt-6  flex-wrap -mx-3">
+                 <div class="w-full max-w-full px-3 flex-0">
+                   <div class="relative flex flex-col min-w-0 break-words p-6 bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
+                     <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
+                       <div class="lg:flex">
+                         <div>
+                           <h5 class="mb-0 dark:text-white">Ongoing Bookings</h5>
+                         </div>
+                         <div class="my-auto mt-6 ml-auto lg:mt-0">
+                           {{-- <div class="my-auto ml-auto">
+                             <a href="{{url('/new-parking')}}" class="inline-block px-8 py-2 m-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">+&nbsp; New Parking</a>
+                           </div> --}}
+                         </div>
+                       </div>
+                     </div>
+                    
+                    
+                     <div class="flex-auto shadow-none bg-transparent p-6 px-0 pb-0">
+                         <div class="overflow-x-auto flex flex-wrap w-full bg-transparent table-responsive">
+                           @foreach($finishedParkingSessions as $session)
+                           <a class="w-full lg:w-4/12" href="#">
+                               <div class="p-4 bg-white shadow-soft-lg rounded-4">
+                                   <!-- Parking details -->
+                                   <div class="flex lg:w-full pb-4 w-full">
+                                       <!-- Parking information -->
+                                       <div class="w-full pl-3">
+                                             <h5 class="mt-0 mb-2 dark:text-white">{{$session->customer->name}}</h5>
+                                             <p class="leading-normal flex items-center mb-0 text-sm font-bold dark:text-white dark:opacity-60">
+                                                 <i class="fas fa-calendar-alt mb-0 text-xl pr-2 text-blue-500"></i> 
+                                                 Booked date:{{$session->date}}
+                                             </p>
+                                             <p class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                 <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                 Start Time: {{$session->start_time ?  (new DateTime($session->start_time))->format('H:i:s') : 'N/A'}}
+                                             </p>
+                                             <p   class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                 <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                 End Time: {{$session->end_time ? $session->end_time : 'N/A'}}
+                                             </p>
+                                             <p   class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                 <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                 Total Price: LKR.{{$session->billing_price ? $session->billing_price : 'N/A'}}
+                                             </p>
+ 
+                                             <div class="flex items-center justify-end w-full">
+                                                 <form action="{{ route( 'finishSession', $session->id ) }}" id="finish-form-{{ $session->id }}" method="POST">
+                                                     @csrf
+                                                     <button  class="text-green-600 font-bold" type="submit" class="" onclick="ConfirmFinish(event, {{ $session->id }})">
+                                                         <i class="fas fa-flag text-green-600 dark:text-white/70"></i> Finish
+                                                     </button>
+                                                 </form>
+                                             </div>
+                                       </div>
+                                     </div>                  
+                               </div>
+                           </a>
+                           @endforeach
+                         </div>
+                     </div>
+                   
+                   </div>
+                 </div>
+             </div>
+              @endif
+            
+
+
+            @if($preBookedSessions->count() > 0)
+            <div class="flex mt-6  flex-wrap -mx-3">
+                <div class="w-full max-w-full px-3 flex-0">
+                  <div class="relative flex flex-col min-w-0 break-words p-6 bg-white border-0 dark:bg-gray-950 dark:shadow-soft-dark-xl shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
+                      <div class="lg:flex">
+                        <div>
+                          <h5 class="mb-0 dark:text-white">Today Pre Bookings</h5>
+                        </div>
+                        <div class="my-auto mt-6 ml-auto lg:mt-0">
+                          {{-- <div class="my-auto ml-auto">
+                            <a href="{{url('/new-parking')}}" class="inline-block px-8 py-2 m-0 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">+&nbsp; New Parking</a>
+                          </div> --}}
+                        </div>
+                      </div>
+                    </div>
+                   
+                   
+                    <div class="flex-auto shadow-none bg-transparent p-6 px-0 pb-0">
+                        <div class="overflow-x-auto flex flex-wrap w-full bg-transparent table-responsive">
+                          @foreach($preBookedSessions as $session)
+                          <a class="w-full lg:w-4/12" href="#">
+                              <div class="p-4 bg-white shadow-soft-lg rounded-4">
+                                  <!-- Parking details -->
+                                  <div class="flex lg:w-full pb-4 w-full">
+                                      <!-- Parking information -->
+                                      <div class="w-full pl-3">
+                                            <h5 class="mt-0 mb-2 dark:text-white">{{$session->customer->name}}</h5>
+                                            <p class="leading-normal flex items-center mb-0 text-sm font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-calendar-alt mb-0 text-xl pr-2 text-blue-500"></i> 
+                                                Booked date:{{$session->date}}
+                                            </p>
+                                            <p class="leading-normal mb-0 text-sm flex items-center  font-bold dark:text-white dark:opacity-60">
+                                                <i class="fas fa-clock text-xl mb-0 pr-2 text-blue-500"></i> 
+                                                Start Time: {{$session->start_time ?  (new DateTime($session->start_time))->format('H:i:s') : 'N/A'}}
+                                            </p>
+                                      </div>
+                                </div>                  
+                              </div>
+                          </a>
+                          @endforeach
+                        </div>
+                    </div>
+                  
+                  </div>
+                </div>
+            </div>
+             @endif
     </div>
-    
 </div>
 
 
 <div class="fixed top-0 left-0 hidden w-full h-full overflow-x-hidden overflow-y-auto transition-opacity ease-linear opacity-0 z-sticky outline-0" id="qrModal" aria-hidden="true">
     <div class="relative w-auto h-screen transition-transform duration-300 pointer-events-none sm:m-7 sm:max-w-125 sm:mx-auto lg:mt-24 ease-soft-out -translate-y-13">
-        <div class="relative flex flex-col w-full bg-white border border-solid pointer-events-auto dark:bg-gray-950 bg-clip-padding border-black/20 lg:rounded-4 outline-0">
+        <div class="relative flex flex-col w-full min-h-screen bg-white border border-solid pointer-events-auto dark:bg-gray-950 bg-clip-padding border-black/20 lg:rounded-4 outline-0">
             <div class="flex items-center justify-between p-4 border-b border-solid shrink-0 border-slate-100 rounded-t-xl">
                 <h5 class="mb-0 leading-normal mr-2 dark:text-white" id="ModalLabel">Welcome {{$parking->parking_name}}</h5>
                 <button type="button" data-toggle="modal" data-target="#qrModal" class="fa fa-close w-4 h-4 ml-auto box-content p-2 text-black dark:text-white border-0 rounded-1.5 opacity-50 cursor-pointer -m-2 " data-dismiss="modal"></button>
@@ -85,13 +280,15 @@
                 <h4 class="font-bold text-4xl mb-0">Parking <span class="bg-gradient-to-tl from-green-600 to-teal-400 bg-clip-text text-transparent text-4xl">HUB</span></h4>
             </a>
 
-            <div class="flex py-2 w-full justify-center">
-                <button id="start" class="bg-blue-500 w-6/12 py-2 rounded-12 text-white font-bold"><i class="fas mr-2 fa-qrcode" style="color: white;"></i>Scan QR</button>
-           </div>
-            <div class="qr-scan-container">
+            <div class="qr-scan-container p-12">
                 <video id="qr-video" width="100%" height="100%" autoplay></video>
                 <canvas id="qr-canvas" style="display: none;"></canvas>
             </div>
+
+            <div class="flex py-2 w-full justify-center">
+                <button id="start" class="bg-blue-500 w-6/12 py-2 rounded-12 text-white font-bold"><i class="fas mr-2 fa-qrcode" style="color: white;"></i>Scan QR</button>
+           </div>
+           
            
         </div>
     </div>
@@ -136,12 +333,58 @@
     </div>
 </div>
 
-
-
 @endsection
 
 
 @push('scripts')
+
+
+<script>
+    function ConfirmFinish(event, id) {
+        event.preventDefault();
+    
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#28B463',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, finish it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form
+                document.getElementById('finish-form-' + id).submit();
+            }
+        });
+    }
+    </script>
+
+<script>
+    // Update elapsed time for each session
+    @foreach($activeParkingSessions as $session)
+    updateTime({{$session->id}}, '{{$session->start_time}}');
+    @endforeach
+
+    // Function to calculate elapsed time
+    function updateTime(sessionId, startTime) {
+        setInterval(function() {
+            var startTime = new Date('{{$session->start_time}}');
+            var currentTime = new Date();
+            var elapsedTime = currentTime - startTime;
+
+            var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+            var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+            var elapsedTimeString = hours + "h " + minutes + "m " + seconds + "s";
+
+            document.getElementById('timer-' + sessionId).innerText = elapsedTimeString;
+        }, 1000);
+    }
+</script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

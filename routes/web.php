@@ -130,7 +130,7 @@ Route::middleware(['auth:sanctum','role:Owner','checkPasswordReset', config('jet
         Route::get('/parking-sessions/{id}', 'parkingSessions')->name('parkingSessions'); 
         Route::get('/active-sessions', 'activeSessions')->name('activeSessions'); 
         Route::get('parking-active-sessions/{id}', 'parkingActiveSessions')->name('parkingActiveSessions');
-        Route::get('finish-session/{id}', 'finishSession')->name('finishSession');
+        Route::post('finish-session/{id}', 'finishSession')->name('finishSession');
     });
 
 });
