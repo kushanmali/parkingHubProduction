@@ -98,7 +98,7 @@
     <div class="flex w-full p-2 hidden animate-fade-up" id="button-container">
         <div class="w-6/12">
             <div class="px-2 py-3 flex items-center gap-2 bg-gray-50">
-                <button id="start" class=" bg-gradient-to-br from-fuchsia-500 to-purple-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-clock" style="color: white;"></i>For Later</button>
+                <a href="{{route('bookLater', $parking->id)}}" id="start" class=" bg-gradient-to-br from-fuchsia-500 text-center to-purple-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-clock" style="color: white;"></i>For Later</a>
             </div>
         </div>
     

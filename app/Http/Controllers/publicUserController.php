@@ -79,4 +79,17 @@ class publicUserController extends Controller
                 
         return view('dashboards.user.myBookings', compact('user', 'sessions'));
     }
+
+    public function bookLater($id){
+
+        $user = Auth::user();
+
+        $parking = Parking::findOrfail($id);
+
+        $qrCode =  $user->qrCode;
+
+        return view('dashboards.user.bookLater', compact('user', 'parking', 'qrCode'));
+    }
 }
+
+

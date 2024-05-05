@@ -16,7 +16,8 @@ class ParkingSession extends Model
         'start_time', 
         'end_time', 
         'status', 
-        'billing_price'
+        'billing_price',
+        'date',
     ];
 
     protected $casts = [

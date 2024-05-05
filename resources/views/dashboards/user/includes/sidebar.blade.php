@@ -64,6 +64,11 @@
             </a>  
         </li>
 
+      </ul>
+
+
+
+      <ul class="flex flex-col mx-2 pl-0 mb-0 list-none">
         <li class="mt-0.5">
           <form class="w-full" id="logout-form" method="POST" action="{{ route('logout') }}">
             @csrf

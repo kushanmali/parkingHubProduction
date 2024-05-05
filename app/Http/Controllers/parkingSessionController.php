@@ -137,6 +137,27 @@ class parkingSessionController extends Controller
 
         return redirect()->route('setDashboard')->with('success', 'Parking session cancelled successfully.');
     }
+
+    public function Parkinglater(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        // Validate the incoming request data
+        $request->validate([
+            'setDate' => 'required|date', // Validate that the setDate field is required and is a valid date
+        ]);
+
+        // Create the parking session
+        $parkingSession = ParkingSession::create([
+            'customer_id' => $user->id,
+            'parking_id' => $id,
+            'date' => $request->input('setDate'), // Set the date from the request
+            'status' => 'preBooked',
+        ]);
+
+        // Redirect back with success message or any other action you want to take
+        return redirect()->route('myBookings')->with('success', 'Parking session booked successfully.');
+    }
     
 }
 

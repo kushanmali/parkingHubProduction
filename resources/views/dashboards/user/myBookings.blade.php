@@ -38,13 +38,15 @@
                             </p>
 
                             @if ($session->status == 'booked')
-                                <span class="m-2 inline-block rounded-full border text-center w-19 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-blue-600 to-cyan-400 text-white">booked</span>
+                                <span class="m-2 inline-block rounded-full border text-center w-8/12 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-blue-600 to-cyan-400 text-white">booked</span>
+                            @elseif ($session->status == 'preBooked')
+                                <span class="m-2 inline-block rounded-full border text-center w-8/12 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-blue-600 to-cyan-400 text-white">pre Booked</span>
                             @elseif($session->status == 'ongoing')
-                                <span class="m-2 inline-block rounded-full border text-center w-19 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-fuchsia-500 to-pink-400 text-white">Ongoing</span>
+                                <span class="m-2 inline-block rounded-full border text-center w-8/12 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-fuchsia-500 to-pink-400 text-white">Ongoing</span>
                             @elseif($session->status == 'cancelled')
-                                <span class="m-2 inline-block rounded-full border text-center w-19 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-red-500 to-pink-400 text-white">cancelled</span>
+                                <span class="m-2 inline-block rounded-full border text-center w-8/12 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-red-500 to-pink-400 text-white">cancelled</span>
                             @elseif($session->status == 'finished')
-                                <span class="m-2 inline-block rounded-full border text-center w-19 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-green-500 to-lime-400 text-white">Finished</span>
+                                <span class="m-2 inline-block rounded-full border text-center w-8/12 px-2.5 py-1 text-xs font-medium bg-gradient-to-tl from-green-500 to-lime-400 text-white">Finished</span>
                             @endif
                         </div>
                     </div>
@@ -57,6 +59,24 @@
                                 </div>
                             </div>
                         </div>
+                    @endif
+
+                    @if($session->status == 'preBooked')
+
+                    <div class="flex gap-2  w-full p-2">
+                        <div class="w-full">
+                            <div class="px-4 py-3 flex items-center gap-2 bg-gray-200">
+                                <p class="mb-0 text-xs text-black font-bold">Booked Date: {{$session->date}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="w-full">
+                        <div class="px-1 py-2 flex items-center gap-2 bg-gray-50">
+                            <a href="{{route('bookNowPage', $session->parking->id)}}" class=" bg-gradient-to-br from-blue-500 to-cyan-400 text-center text-sm w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-car" style="color: white;"></i>Go To MAp</a>
+                        </div>
+                    </div>
                     @endif
 
                     @if($session->status == 'booked')

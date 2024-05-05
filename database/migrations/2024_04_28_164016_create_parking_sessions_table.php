@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('parking_id')->constrained('parkings')->onDelete('cascade');
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
-            $table->enum('status', ['booked','ongoing','finished','cancelled'])->default('booked');
+            $table->enum('status', ['preBooked','booked','ongoing','finished','cancelled'])->default('booked');
             $table->decimal('billing_price', 10, 2)->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

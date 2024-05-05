@@ -66,6 +66,7 @@ Route::prefix('user')->middleware(['auth:sanctum', 'role:User','checkPasswordRes
         Route::get('view-user-parking/{id}', 'viewUserParking')->name('viewUserParking');
         Route::get('parking-location/{id}', 'getParkingLocation')->name('parking.location');
         Route::get('book-now-page/{id}', 'bookNowPage')->name('bookNowPage');
+        Route::get('book-later/{id}', 'bookLater')->name('bookLater');
         Route::get('my-bookings', 'myBookings')->name('myBookings');
     });
 
@@ -73,6 +74,7 @@ Route::prefix('user')->middleware(['auth:sanctum', 'role:User','checkPasswordRes
         Route::get('/create-parking-session/{parking}','create')->name('parking.session.create');
         Route::get('/cancel-page/{id}', 'cancelPage')->name('cancelPage');
         Route::post('cancel-parking-session/{id}', 'cancelParking')->name('cancelParking');
+        Route::post('parking-later/{id}', 'Parkinglater')->name('Parkinglater');
     });
 
 });
