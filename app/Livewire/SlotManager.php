@@ -24,9 +24,9 @@ class SlotManager extends Component
 
         // Calculate available slots by counting ongoing parking sessions
         $ongoingSessionsCount = ParkingSession::where('parking_id', $this->parking->id)
-            ->where('status', 'ongoing')
+            ->where('status', 'ongoing')->orWhere('status', 'booked')
             ->count();
-
+            
         $this->availableSlots = $this->totalSlots - $ongoingSessionsCount;
     }
 

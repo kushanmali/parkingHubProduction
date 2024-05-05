@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parking;
+use App\Models\CancelReason;
 use Illuminate\Http\Request;
 use App\Models\ParkingSession;
 use Illuminate\Support\Facades\Auth;
@@ -76,18 +77,66 @@ class parkingSessionController extends Controller
         // Assuming the authenticated user is the customer
         $customer = auth()->user();
 
+        // Check if the user already has an ongoing booking for the given parking
+        $existingSession = ParkingSession::where('customer_id', $customer->id)
+            ->where('parking_id', $parking->id)
+            ->where('status', 'booked')->orwhere('status', 'ongoing')
+            ->first();
+
+        // If the user has an ongoing booking, return a response indicating the existing session
+        if ($existingSession) {
+            return redirect()->route('bookNowPage', $parking->id)->with('faild', 'booking faild');
+        }
+
         // Create a new parking session
         $session = ParkingSession::create([
             'customer_id' => $customer->id,
             'parking_id' => $parking->id,
-            'start_time' => now(), 
-            'status' => 'ongoing', 
+            'status' => 'booked', 
         ]);
 
-        return response()->json(['session' => $session], 200);
+        return redirect()->route('bookNowPage', $parking->id)->with('success', 'booking is succcessfull');
     }
 
-    
+    public function cancelPage($id){
+
+        $user = Auth::user();
+
+        $parking = Parking::findOrfail($id);
+
+        return view('dashboards.user.cancelPage', compact('user', 'parking'));
+    }
+
+
+    public function cancelParking(Request $request, $parkingId)
+    {
+
+        $user = Auth::user();
+
+        $request->validate([
+            'cancelReason' => 'required|string',
+        ]);
+
+        // Find the parking session
+        $parkingSession = ParkingSession::where('parking_id', $parkingId)
+            ->where('status', 'booked')->where('customer_id', $user->id)
+            ->first();
+
+        if (!$parkingSession) {
+            return redirect()->route('setDashboard')->with('fail', 'Parking session not found or already cancelled.');
+        }
+
+        // Create the cancel reason
+        CancelReason::create([
+            'session_id' => $parkingSession->id,
+            'reason' => $request->input('cancelReason'),
+        ]);
+
+        // Update the status of the parking session to 'cancelled'
+        $parkingSession->update(['status' => 'cancelled']);
+
+        return redirect()->route('setDashboard')->with('success', 'Parking session cancelled successfully.');
+    }
     
 }
 

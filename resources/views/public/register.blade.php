@@ -115,9 +115,6 @@
 
 @push('scripts')
 
-
-
-
 <script>
     const otpInputs = document.querySelectorAll('.otp-input');
 

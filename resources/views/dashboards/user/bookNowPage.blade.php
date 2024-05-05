@@ -15,14 +15,80 @@
         @livewire('slot-manager', ['parking' => $parking], key($parking->id))
     </div>
 
-    <div class="flex w-full px-4 mb-4 justify-center">
-        <button id="start-button" class=" bg-gradient-to-br from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-flag" style="color: white;"></i>Start</button>
-    </div>
+    @if (!$existingSession)
+        <div class="flex w-full px-4 mb-4 justify-center">
+            <button id="start-button" class=" bg-gradient-to-br from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-flag" style="color: white;"></i>Start</button>
+        </div>
+    @endif
 
-    <div class="flex w-full px-4 justify-center" style="display: none;">
-        <button id="cancel-button" class=" bg-gradient-to-br from-fuchsia-600 to-pink-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-flag" style="color: white;"></i>Cancel</button>
+    @if ($existingSession)
+    @if ($existingSession->status == 'booked')
+    <div class="flex w-full px-4 mb-4 justify-center">
+        <button id="start-button" type="button" data-toggle="modal" data-target="#qrModal" class=" bg-gradient-to-br from-blue-500 to-cyan-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-qrcode" style="color: white;"></i>Scan Qr Code</button>
+    </div>
+    @endif
+    @endif
+
+    <div class="flex w-full px-4 justify-center">
+        <a href="{{route('cancelPage', $parking->id)}}" id="cancel-button" class=" bg-gradient-to-br from-red-600 text-center to-pink-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-times" style="color: white;"></i>Cancel</a>
     </div>
 </div>
+
+
+<div class="fixed top-0 left-0 hidden w-full h-full overflow-x-hidden overflow-y-auto transition-opacity ease-linear opacity-0 z-sticky outline-0" id="qrModal" aria-hidden="true">
+    <div class="relative w-auto min-h-screen transition-transform duration-300 pointer-events-none sm:m-7 sm:max-w-125 sm:mx-auto lg:mt-24 ease-soft-out -translate-y-13">
+        <div class="relative flex flex-col w-full bg-white border border-solid pointer-events-auto dark:bg-gray-950 bg-clip-padding border-black/20 lg:rounded-4 outline-0">
+            <div class="flex items-center justify-between p-4 border-b border-solid shrink-0 border-slate-100 rounded-t-xl">
+                <h5 class="mb-0 leading-normal mr-2 dark:text-white" id="ModalLabel"></h5>
+                <button type="button" data-toggle="modal" data-target="#qrModal" class="fa fa-close w-4 h-4 ml-auto box-content p-2 text-black dark:text-white border-0 rounded-1.5 opacity-50 cursor-pointer -m-2 " data-dismiss="modal"></button>
+            </div>
+
+            <div class="animate-fade-down animate-once animate-duration-1000">
+                <div class="grid grid-cols-1 justify-end">
+                    <li class="list-none text-center">
+                      <img class=" w-56 lg:w-fit" src="{{ url('storage/' . $qrCode->qr_code_path) }}" alt="qr-code">
+                    </li>
+                </div>
+            </div>
+
+            <div class="w-screen px-5 pb-44">
+                <div class="flex w-full pb-3 pt-12 justify-center">
+                    <div class="w-6/12">
+                        <p class="text-sm mb-0">User Name</p>
+                        <h3 class="text-lg font-bold">{{$user->name}}</h3>
+                    </div>
+                    <div class="w-6/12">
+                        <p class="text-sm mb-0">User Email</p>
+                        <h3 class="text-lg font-bold">{{$user->email}}</h3>
+                    </div>
+                </div>
+                <div class="flex w-full pt-12 justify-center">
+                    <div class="w-6/12">
+                        <p class="text-sm mb-0">User Address</p>
+                        <h3 class="text-lg font-bold">{{$user->name}}</h3>
+                    </div>
+                    <div class="w-6/12">
+                        <p class="text-sm mb-0">User Name</p>
+                        <h3 class="text-lg font-bold">{{$user->name}}</h3>
+                    </div>
+                </div>
+                <div class="flex w-full pt-12 justify-center">
+                    <div class="w-6/12">
+                        <p class="text-sm mb-0">User Name</p>
+                        <h3 class="text-lg font-bold">{{$user->name}}</h3>
+                    </div>
+                    <div class="w-6/12">
+                        <p class="text-sm mb-0">User Name</p>
+                        <h3 class="text-lg font-bold">{{$user->name}}</h3>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
 
 @endsection
 

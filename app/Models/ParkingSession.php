@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ParkingSession extends Model
 {
@@ -33,5 +34,10 @@ class ParkingSession extends Model
     public function parking()
     {
         return $this->belongsTo(Parking::class, 'parking_id');
+    }
+
+    public function cancelReason(): HasOne
+    {
+        return $this->hasOne(CancelReason::class, 'session_id');
     }
 }

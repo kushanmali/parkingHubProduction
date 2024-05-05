@@ -13,6 +13,18 @@
     </div>
 
 
+    @if(session('success'))
+        <div id="success-message" class="bg-green-500 mx-4 text-white rounded-3 p-6 my-5">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('fail'))
+        <div id="fail-message" class="bg-red-500 mx-4 text-white rounded-3 p-6 my-5">
+            {{ session('fail') }}
+        </div>
+    @endif
+
 
     <div class="p-3">
         <h1 class="text-black pb-4 text-xl">All Parkings</h1>
@@ -142,6 +154,28 @@
 
 
 @push('scripts')
+
+<script>
+    // Function to hide success or fail message after 10 seconds
+    function hideMessage() {
+        setTimeout(function() {
+            var successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+
+            var failMessage = document.getElementById('fail-message');
+            if (failMessage) {
+                failMessage.style.display = 'none';
+            }
+        }, 10000); // Hide after 10 seconds (adjust as needed)
+    }
+
+    // Call hideMessage function on page load
+    window.onload = function() {
+        hideMessage();
+    };
+</script>
 
 <script>
     @foreach($parkings as $parking)

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('users')->onDelete('cascade'); 
             $table->foreignId('parking_id')->constrained('parkings')->onDelete('cascade');
-            $table->dateTime('start_time');
+            $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
-            $table->enum('status', ['ongoing', 'finished'])->default('ongoing');
+            $table->enum('status', ['booked','ongoing','finished','cancelled'])->default('booked');
             $table->decimal('billing_price', 10, 2)->nullable();
             $table->timestamps();
         });
@@ -31,4 +31,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('parking_sessions');
     }
+    
 };

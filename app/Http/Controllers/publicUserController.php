@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Parking;
 use Illuminate\Http\Request;
+use App\Models\ParkingSession;
 use Illuminate\Support\Facades\Auth;
 
 class publicUserController extends Controller
@@ -58,6 +59,24 @@ class publicUserController extends Controller
 
         $user = Auth::user();
 
-        return view('dashboards.user.bookNowPage', compact('user', 'parking'));
+        $existingSession = ParkingSession::where('customer_id', $user->id)
+        ->where('parking_id', $parking->id)
+        ->where('status', 'booked')->orwhere('status', 'ongoing')
+        ->first();
+
+        $qrCode =  $user->qrCode;
+
+        return view('dashboards.user.bookNowPage', compact('user', 'parking', 'existingSession', 'qrCode'));
+    }
+
+
+    public function myBookings(){
+
+        $user = Auth::user();
+
+        
+        $sessions = ParkingSession::where('customer_id', $user->id)->latest()->get();
+                
+        return view('dashboards.user.myBookings', compact('user', 'sessions'));
     }
 }
