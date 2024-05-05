@@ -92,7 +92,8 @@ class parkingSessionController extends Controller
         $session = ParkingSession::create([
             'customer_id' => $customer->id,
             'parking_id' => $parking->id,
-            'status' => 'booked', 
+            'status' => 'booked',
+            'date' => today() 
         ]);
 
         return redirect()->route('bookNowPage', $parking->id)->with('success', 'booking is succcessfull');
@@ -154,6 +155,7 @@ class parkingSessionController extends Controller
             'date' => $request->input('setDate'), // Set the date from the request
             'status' => 'preBooked',
         ]);
+
 
         // Redirect back with success message or any other action you want to take
         return redirect()->route('myBookings')->with('success', 'Parking session booked successfully.');

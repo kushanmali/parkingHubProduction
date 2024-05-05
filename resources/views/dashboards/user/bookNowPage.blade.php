@@ -17,16 +17,16 @@
 
     @if (!$existingSession)
         <div class="flex w-full px-4 mb-4 justify-center">
-            <button id="start-button" class=" bg-gradient-to-br from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-flag" style="color: white;"></i>Start</button>
+            <a href="{{ route('parking.session.create', ['parking' => $parking->id]) }}" id="start-button" class=" bg-gradient-to-br text-center from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-flag" style="color: white;"></i>Start</a>
         </div>
     @endif
 
     @if ($existingSession)
-    @if ($existingSession->status == 'booked')
-    <div class="flex w-full px-4 mb-4 justify-center">
-        <button id="start-button" type="button" data-toggle="modal" data-target="#qrModal" class=" bg-gradient-to-br from-blue-500 to-cyan-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-qrcode" style="color: white;"></i>Scan Qr Code</button>
-    </div>
-    @endif
+        @if ($existingSession->status == 'booked' || $existingSession->status == 'preBooked')
+            <div class="flex w-full px-4 mb-4 justify-center">
+                <button id="start-button" type="button" data-toggle="modal" data-target="#qrModal" class=" bg-gradient-to-br from-blue-500 to-cyan-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-qrcode" style="color: white;"></i>Scan Qr Code</button>
+            </div>
+        @endif
     @endif
 
     <div class="flex w-full px-4 justify-center">
@@ -103,6 +103,7 @@
         // Create a new map instance
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 12, // Zoom level
+
             center: { lat: parseFloat({{ $parking->location->address_latitude }}), lng: parseFloat({{ $parking->location->address_longitude }}) }, // Center map on parking location
         });
     }
@@ -177,32 +178,6 @@
         });
     }
 
-    function startNavigation() {
-        // Get the parking ID
-        var parkingId = {{ $parking->id }};
-        
-        // AJAX request to create a new parking session
-        $.ajax({
-            url: "{{ route('parking.session.create', ['parking' => $parking->id]) }}",
-            method: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                console.log('Parking session created:', response.session);
-
-                // Start navigating the user in real-time
-                // Add your code to navigate the user using waypoints
-            },
-            error: function(xhr, status, error) {
-                console.error('Error creating parking session:', error);
-            }
-        });
-    }
-    
-    // Add click event listener to the "Start" button
-    document.getElementById('start-button').addEventListener('click', function() {
-        startNavigation();
-    });
-
 
 
     function updateRoute(userLocation) {
@@ -227,6 +202,7 @@
     window.onload = function() {
         initMap();
         bookNow();
+        startNavigation();
     };
 </script>
 

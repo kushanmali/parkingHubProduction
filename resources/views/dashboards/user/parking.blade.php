@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <div class=" max-w-7xl -mt-24 mx-auto">
     <div class="p-3">
         <div class="-mt-10 m-auto">
@@ -98,7 +96,7 @@
     <div class="flex w-full p-2 hidden animate-fade-up" id="button-container">
         <div class="w-6/12">
             <div class="px-2 py-3 flex items-center gap-2 bg-gray-50">
-                <a href="{{route('bookLater', $parking->id)}}" id="start" class=" bg-gradient-to-br from-fuchsia-500 text-center to-purple-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-clock" style="color: white;"></i>For Later</a>
+                <button type="button" data-toggle="modal" data-target="#qrModal" class=" bg-gradient-to-br from-fuchsia-500 text-center to-purple-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-clock" style="color: white;"></i>For Later</button>
             </div>
         </div>
     
@@ -111,6 +109,48 @@
 </div>
 
 
+
+ 
+
+
+<div class="fixed top-0 left-0 hidden w-full h-full overflow-x-hidden overflow-y-auto transition-opacity ease-linear opacity-0 z-sticky outline-0" id="qrModal" aria-hidden="true">
+    <div class="relative w-auto min-h-screen transition-transform duration-300 pointer-events-none sm:m-7 sm:max-w-125 sm:mx-auto lg:mt-24 ease-soft-out -translate-y-13">
+        <div class="relative flex flex-col w-full bg-white border border-solid pointer-events-auto dark:bg-gray-950 bg-clip-padding border-black/20 lg:rounded-4 outline-0">
+            <div class="flex items-center justify-between p-4 border-b border-solid shrink-0 border-slate-100 rounded-t-xl">
+                <h5 class="mb-0 leading-normal mr-2 dark:text-white" id="ModalLabel">Book Slot For Later</h5>
+                <button type="button" data-toggle="modal" data-target="#qrModal" class="fa fa-close w-4 h-4 ml-auto box-content p-2 text-black dark:text-white border-0 rounded-1.5 opacity-50 cursor-pointer -m-2 " data-dismiss="modal"></button>
+            </div>
+
+            <div class="px-3 py-6">
+                <h3 class="text-lg text-start"></h3>
+            </div>
+
+            <div class="flex p-3 rounded-8 flex-wrap -mx-3">
+                <div class="w-full max-w-full px-3 flex-0">
+                    <div id="address-map-container" style="width:100%;height:380px; ">
+                        <div style="width: 100%; height: 100%" id="direction-map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="animate-fade-down pt-5 animate-once animate-duration-1000">
+                <form  id="main-form"  action="{{ route('Parkinglater', $parking->id) }}" method="post">
+                    @csrf
+            
+                        <div class="w-full max-w-full flex items-center px-6 pb-4 flex-0 lg:w-4/12">
+                            <input datetimepicker name="setDate"  id="setDate" class="focus:shadow-soft-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" type="text" placeholder="Please select a date" />
+                        </div>
+            
+                        <div class="flex w-full px-4 mb-4 justify-center">
+                            <button class=" bg-gradient-to-br from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-flag" style="color: white;"></i>Book Slot</button>
+                        </div>
+            
+                </form>
+            </div>
+           
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -219,9 +259,57 @@
         });
     }
 
+
+    function initDirectionMap() {
+        // Create a new map instance
+        var directionMap = new google.maps.Map(document.getElementById('direction-map'), {
+            zoom: 12, // Zoom level
+            center: { lat: 0, lng: 0 }, // Center map (this will be updated with the route)
+            disableDefaultUI: true
+        });
+
+        // Get the parking location coordinates
+        var parkingLocation = { lat: parseFloat({{ $parking->location->address_latitude }}), lng: parseFloat({{ $parking->location->address_longitude }}) };
+
+        // Get the user's current location using the Geolocation API
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                // Calculate the route from user's location to parking location
+                var directionsService = new google.maps.DirectionsService();
+                var directionsRenderer = new google.maps.DirectionsRenderer({
+                    map: directionMap,
+                });
+                
+                var request = {
+                    origin: userLocation,
+                    destination: parkingLocation,
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
+                
+                directionsService.route(request, function(result, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsRenderer.setDirections(result);
+                    } else {
+                        console.error('Error fetching directions:', status);
+                    }
+                });
+            }, function(error) {
+                console.error('Error getting user location:', error);
+            });
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
+    }
+
     // Call initMap() function when the page loads
     $(document).ready(function() {
         initMap();
+        initDirectionMap();
     });
 </script>
 

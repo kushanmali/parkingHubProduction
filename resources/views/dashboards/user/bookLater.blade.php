@@ -15,20 +15,6 @@
         @livewire('slot-manager', ['parking' => $parking], key($parking->id))
     </div>
 
-
-    <form  id="main-form"  action="{{ route('Parkinglater', $parking->id) }}" method="post">
-        @csrf
-
-            <div class="w-full max-w-full flex items-center px-6 pb-4 flex-0 lg:w-4/12">
-                <input datetimepicker name="setDate"  id="setDate" class="focus:shadow-soft-primary-outline dark:bg-gray-950 dark:placeholder:text-white/80 dark:text-white/80 text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" type="text" placeholder="Please select a date" />
-            </div>
-
-            <div class="flex w-full px-4 mb-4 justify-center">
-                <button id="start-button" class=" bg-gradient-to-br from-green-500 to-green-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-flag" style="color: white;"></i>Book Slot</button>
-            </div>
-
-    </form>
-
     {{-- <div class="flex w-full px-4 mb-4 justify-center">
         <button id="start-button" type="button" data-toggle="modal" data-target="#qrModal" class=" bg-gradient-to-br from-blue-500 to-cyan-400 w-full py-3 rounded-12 text-white font-bold"><i class="fas mr-2 fa-qrcode" style="color: white;"></i>Scan Qr Code</button>
     </div>
@@ -214,12 +200,6 @@
             }
         });
     }
-    
-    // Add click event listener to the "Start" button
-    document.getElementById('start-button').addEventListener('click', function() {
-        startNavigation();
-    });
-
 
 
     function updateRoute(userLocation) {
@@ -244,6 +224,7 @@
     window.onload = function() {
         initMap();
         bookNow();
+        startNavigation();
     };
 </script>
 

@@ -20,12 +20,15 @@ class publicUserController extends Controller
 
     public function viewUserParking($id){
 
+        $user = Auth::user();
 
         $parking = Parking::findOrfail($id);
 
         $parkingImages = $parking->images;
 
-        return view('dashboards.user.parking', compact('parking','parkingImages'));
+        $qrCode = $user->qrCode;
+
+        return view('dashboards.user.parking', compact('parking','parkingImages', 'qrCode', 'user'));
     }
 
     public function getUserLocation(Request $request)
@@ -61,7 +64,10 @@ class publicUserController extends Controller
 
         $existingSession = ParkingSession::where('customer_id', $user->id)
         ->where('parking_id', $parking->id)
-        ->where('status', 'booked')->orwhere('status', 'ongoing')
+        ->where('date', today())
+        ->where('status', 'booked')
+        ->orwhere('status', 'ongoing')
+        ->orwhere('status', 'preBooked')
         ->first();
 
         $qrCode =  $user->qrCode;
